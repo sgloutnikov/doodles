@@ -5,6 +5,7 @@ import org.apache.spark.SparkContext._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.streaming.StreamingContext._
+import scala.io.Source
 
 /** Listens to a stream of Tweets and keeps track of the most popular
  *  hashtags over a 5 minute window.
@@ -20,7 +21,7 @@ object PopularHashtags {
   
   /** Configures Twitter service credentials using twiter.txt in the main workspace directory */
   def setupTwitter() = {
-    import scala.io.Source
+    //import scala.io.Source
     
     for (line <- Source.fromFile("twitter.txt").getLines) {
       val fields = line.split(" ")
@@ -68,6 +69,7 @@ object PopularHashtags {
     
     // Print the top 10
     sortedResults.print
+    statuses.count().print()
     
     // Set a checkpoint directory, and kick it all off
     // I could watch this all day!
